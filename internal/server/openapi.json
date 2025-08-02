@@ -1,0 +1,93 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Recurse Print API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://10.100.0.3:8081",
+      "description": "\"Production\" server"
+    }
+  ],
+  "paths": {
+    "/api/v1/print_checkins": {
+      "post": {
+        "summary": "Print Checkins",
+        "description": "Process and print checkin data",
+        "operationId": "printCheckins",
+        "tags": ["checkins"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckinRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Checkins processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckinResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CheckinRequest": {
+        "type": "object",
+        "properties": {}
+      },
+      "CheckinResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        },
+        "required": ["error"]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "checkins",
+      "description": "Checkin printing operations"
+    }
+  ]
+}
