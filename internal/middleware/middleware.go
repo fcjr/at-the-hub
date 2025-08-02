@@ -3,6 +3,7 @@ package middleware
 import (
 	"log/slog"
 	"net/http"
+	"runtime/debug"
 )
 
 type Middleware func(http.Handler) http.Handler
@@ -22,6 +23,26 @@ type statusCapturingResponseWriter struct {
 func (w *statusCapturingResponseWriter) WriteHeader(status int) {
 	w.status = status
 	w.ResponseWriter.WriteHeader(status)
+}
+
+func WithPanicRecovery(logger *slog.Logger) Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			defer func() {
+				if recovered := recover(); recovered != nil {
+					logger.Error("panic recovered",
+						"panic", recovered,
+						"method", r.Method,
+						"path", r.URL.Path,
+						"remote_addr", r.RemoteAddr,
+						"stack", string(debug.Stack()),
+					)
+					http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				}
+			}()
+			next.ServeHTTP(w, r)
+		})
+	}
 }
 
 func WithRequestResponseLogging(logger *slog.Logger) Middleware {

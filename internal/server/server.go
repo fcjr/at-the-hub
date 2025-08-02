@@ -57,6 +57,7 @@ func (s *Server) ListenAndServe(ctx context.Context, addr string) error {
 
 	// apply middlewares
 	handler := middleware.Chain(mux,
+		middleware.WithPanicRecovery(s.logger),
 		middleware.WithRequestResponseLogging(s.logger),
 	)
 
