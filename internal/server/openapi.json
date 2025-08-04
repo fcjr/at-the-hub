@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://10.100.0.3:8081",
+      "url": "http://10.100.0.3:8080",
       "description": "\"Production\" server"
     }
   ],
