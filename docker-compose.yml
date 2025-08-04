@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  atthehub:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./.env:/app/.env:ro
+    environment:
+      - ENV_FILE=/app/.env
+    restart: unless-stopped
