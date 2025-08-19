@@ -54,6 +54,7 @@ func (s *Server) ListenAndServe(ctx context.Context, addr string) error {
 	}
 
 	mux.HandleFunc("POST /api/v1/print_checkins", s.handlePrintCheckins)
+	mux.HandleFunc("GET /api/v1/get_checkins", s.handleGetCheckins)
 
 	// apply middlewares
 	handler := middleware.Chain(mux,
