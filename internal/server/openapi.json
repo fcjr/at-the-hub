@@ -60,6 +60,46 @@
           }
         }
       }
+    },
+    "/api/v1/get_checkins": {
+      "get": {
+        "summary": "Get Checkins",
+        "description": "Get checkin data",
+        "operationId": "getChekins",
+        "tags": ["checkins"],
+        "responses": {
+          "200": {
+            "description": "Checkins processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCheckinResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -71,6 +111,22 @@
       "CheckinResponse": {
         "type": "object",
         "properties": {}
+      },
+      "GetCheckinResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "created_at": {"type": "string"},
+            "person": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "number"},
+                "name": {"type": "string"}
+              }
+            }
+          }
+        }
       },
       "ErrorResponse": {
         "type": "object",
